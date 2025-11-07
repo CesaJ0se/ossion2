@@ -1,0 +1,91 @@
+ /* --- ESTILO FORMULARIO REGISTRO --- */
+        .register-section {
+            background-color: #ffffff;
+            color: #fff;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 50px 20px;
+        }
+
+        .register-card {
+            background-color: #111;
+            border-radius: 15px;
+            padding: 40px 50px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .register-card h2 {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+
+        .register-card form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .register-card input {
+            background-color: #1c1c1c;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            padding: 14px 16px;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .register-card input:focus {
+            outline: none;
+            border-color: #fff;
+            background-color: #222;
+        }
+
+        .register-card button {
+            background-color: #fff;
+            color: #000;
+            font-weight: 600;
+            padding: 14px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 16px;
+        }
+
+        .register-card button:hover {
+            background-color: #e5e5e5;
+        }
+
+        .register-card p {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        .register-card a {
+            color: #fff;
+            text-decoration: underline;
+        }
+
+        /* --- Mensajes --- */
+        .message {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        .message.success {
+            color: #9effa1;
+        }
+
+        .message.error {
+            color: #ff9f9f;
+        }

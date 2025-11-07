@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | OSSION MORFOCE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/styles_login.css">
+
+</head>
+<body>
+    <!-- Header con logo -->
+    <div class="header-top">
+        <img src="/static/smuel3.png" alt="OSSION MORFOCE Logo" class="logo">
+        <h1 class="brand-name">OSSION MORFOCE</h1>
+    </div>
+
+    <!-- Barra de navegación -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="">Inicio</a>
+                <a href="#">Contacto</a>
+                <a href="#">Productos</a>
+                <a href="#">Acerca de</a>
+            </div>
+            <div class="nav-right">
+                <a href="/registro">Registro</a>
+                <a href="/login">Login</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menú móvil -->
+    <div class="mobile-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-close" onclick="toggleMenu()">&times;</div>
+        <a href="/" onclick="toggleMenu()">Inicio</a>
+        <a href="/registro" onclick="toggleMenu()">Registro</a>
+        <a href="/login" onclick="toggleMenu()">Login</a>
+        <a href="#" onclick="toggleMenu()">Servicios</a>
+        <a href="#" onclick="toggleMenu()">Reservas</a>
+        <a href="#" onclick="toggleMenu()">Galería</a>
+        <a href="#" onclick="toggleMenu()">Contacto</a>
+    </div>
+
+    <!-- Sección principal de login -->
+    <section class="login-section">
+        <div class="login-card">
+            <h2>Iniciar Sesión</h2>
+            <form id="loginForm">
+                <input type="email" id="email" placeholder="Correo electrónico" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit">Ingresar</button>
+                <p>¿No tienes una cuenta? <a href="/registro">Regístrate aquí</a></p>
+                <div id="message" class="message"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2025 OSSION MORFOCE. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const overlay = document.getElementById('menuOverlay');
+            menu.classList.toggle('active');
+            overlay.classList.toggle('active');
+            document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
+        }
+
+        // Enlace con el backend Flask (API /api/login)
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const messageBox = document.getElementById('message');
+
+            messageBox.textContent = "Verificando...";
+            messageBox.className = "message";
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (res.ok) {
+                    messageBox.textContent = data.message;
+                    messageBox.classList.add('success');
+                    // Redirige al inicio o dashboard
+                    setTimeout(() => window.location.href = '/', 1500);
+                } else {
+                    messageBox.textContent = data.error || "Credenciales incorrectas";
+                    messageBox.classList.add('error');
+                }
+            } catch (err) {
+                messageBox.textContent = "Error de conexión con el servidor";
+                messageBox.classList.add('error');
+            }
+        });
+    </script>
+</body>
+</html>

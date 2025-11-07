@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro | OSSION MORFOCE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles_registro.css">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header-top">
+        <img src="/static/smuel3.png" alt="OSSION MORFOCE Logo" class="logo">
+        <h1 class="brand-name">OSSION MORFOCE</h1>
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-left">
+                <a href="/templates/index.html">Inicio</a>
+                <a href="/contacto">Contacto</a>
+                <a href="/productos">Productos</a>
+                <a href="/acerca">Acerca de</a>
+            </div>
+            <div class="nav-right">
+                <a href="/registro">Registro</a>
+                <a href="/login">Login</a>
+            </div>
+            <div class="hamburger" onclick="toggleMenu()">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Menú móvil -->
+    <div class="mobile-menu-overlay" id="menuOverlay" onclick="toggleMenu()"></div>
+    <div class="mobile-menu" id="mobileMenu">
+        <div class="mobile-menu-close" onclick="toggleMenu()">&times;</div>
+        <a href="/" onclick="toggleMenu()">Inicio</a>
+        <a href="/registro" onclick="toggleMenu()">Registro</a>
+        <a href="/login" onclick="toggleMenu()">Login</a>
+        <a href="/servicios" onclick="toggleMenu()">Servicios</a>
+        <a href="/reservas" onclick="toggleMenu()">Reservas</a>
+        <a href="/galeria" onclick="toggleMenu()">Galería</a>
+        <a href="/contacto" onclick="toggleMenu()">Contacto</a>
+    </div>
+
+    <!-- Sección principal -->
+    <section class="register-section">
+        <div class="register-card">
+            <h2>Crear una cuenta</h2>
+            <form id="registerForm" onsubmit="registerUser(event)">
+                <input type="text" id="nombre" placeholder="Nombre de usuario" required>
+                <input type="email" id="email" placeholder="Correo electrónico" required>
+                <input type="password" id="password" placeholder="Contraseña" required>
+                <button type="submit">Registrarme</button>
+                <p>¿Ya tienes cuenta? <a href="/login">Inicia sesión</a></p>
+                <div id="message" class="message"></div>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-bottom">
+            <p>&copy; 2025 OSSION MORFOCE. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+    function toggleMenu() {
+        const menu = document.getElementById('mobileMenu');
+        const overlay = document.getElementById('menuOverlay');
+        menu.classList.toggle('active');
+        overlay.classList.toggle('active');
+        document.body.style.overflow = menu.classList.contains('active') ? 'hidden' : 'auto';
+    }
+
+    async function registerUser(event) {
+        event.preventDefault();
+
+        const nombre = document.getElementById('nombre').value.trim();
+        const email = document.getElementById('email').value.trim().toLowerCase();
+        const password = document.getElementById('password').value.trim();
+
+        if (!nombre || !email || !password) {
+            alert("Por favor completa todos los campos");
+            return;
+        }
+
+        const res = await fetch("/api/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ nombre, email, password })
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+            alert("✅ Registro exitoso");
+            window.location.href = "/login";
+        } else {
+            alert("⚠️ Error: " + (data.error || "No se pudo registrar"));
+        }
+    }
+    </script>
+</body>
+</html>
